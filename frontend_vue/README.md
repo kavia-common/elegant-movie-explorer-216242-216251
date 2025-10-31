@@ -1,45 +1,62 @@
-# vue-kavia
+# Elegant Movie Explorer (Vue 3 + Vite + Tailwind)
 
-This template should help get you started developing with Vue 3 in Vite.
+A Vue 3 single-page app with a Royal Purple theme. Features:
+- Supabase Google OAuth authentication
+- Per-user Movies CRUD backed by Supabase (`movies` table)
+- TMDB integrations for Trending, Featured, and Search (debounced and abortable)
+- Two routes: "/" landing and "/app" main app
+- TailwindCSS-powered elegant UI components
 
-## Recommended IDE Setup
+## Setup
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
-
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
+1) Install dependencies
 ```sh
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+2) Environment variables (create `.env` at project root):
+```
+VITE_SUPABASE_URL=YOUR_SUPABASE_URL
+VITE_SUPABASE_KEY=YOUR_SUPABASE_ANON_KEY
+VITE_TMDB_API_KEY=YOUR_TMDB_V4_READ_TOKEN   # Bearer token
+```
 
+3) Supabase Database table
+Create a table `movies`:
+- id: uuid, primary key, default uuid_generate_v4() or use Supabase default
+- user_id: uuid (references auth.users.id)
+- title: text
+- tmdb_id: int8 nullable
+- notes: text nullable
+- created_at: timestamptz default now()
+
+Row Level Security: enable and add policy to allow a user to access only their rows.
+
+4) Development
 ```sh
 npm run dev
 ```
+Runs at http://localhost:3000 (configured to allow cloud preview as well).
 
-### Type-Check, Compile and Minify for Production
+## Notes
 
-```sh
-npm run build
-```
+- Sign in via Google uses Supabase OAuth. The redirect uses current origin + `/app`.
+- Tailwind colors:
+  - primary #8B5CF6
+  - secondary #6B7280
+  - success #10B981
+  - error #EF4444
+  - background #F3E8FF
+  - surface #FFFFFF
+  - text #374151
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+- Global alerts appear under the Navbar (success/error/info), auto-dismiss after 4s.
 
-```sh
-npm run test:unit
-```
+## Scripts
 
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+- `npm run dev` - start dev server
+- `npm run build` - type-check and build
+- `npm run preview` - local preview
+- `npm run test:unit` - run unit tests (template)
+- `npm run lint` - lint
+- `npm run format` - format src

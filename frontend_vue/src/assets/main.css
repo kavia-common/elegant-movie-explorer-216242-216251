@@ -1,35 +1,29 @@
-@import './base.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  font-weight: normal;
+/* App-level utilities */
+:root {
+  --royal-primary: #8B5CF6;
+  --royal-secondary: #6B7280;
+  --royal-success: #10B981;
+  --royal-error: #EF4444;
 }
 
-a,
-.green {
-  text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
-  padding: 3px;
-}
-
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
+@layer base {
+  html, body, #app {
+    @apply min-h-full;
   }
 }
 
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
+@layer components {
+  .focus-ring {
+    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/70 focus-visible:ring-offset-2 focus-visible:ring-offset-background;
   }
-
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
+  .card {
+    @apply bg-surface rounded-xl shadow-soft border border-purple-200/40;
+  }
+  .gradient-hero {
+    @apply bg-gradient-to-br from-purple-100 to-purple-300;
   }
 }
